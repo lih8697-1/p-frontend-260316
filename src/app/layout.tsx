@@ -24,9 +24,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased !bg-red-300 border-2 border-blue-500`}
       >
         <header>
           <nav className="flex gap-4">
