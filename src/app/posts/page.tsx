@@ -24,7 +24,7 @@ export default function Home() {
         // 로딩 중
         posts.length <= 0
             ? <div>로딩 중...</div>
-            
+
             // 로딩 완료
             : <ul>
                 {posts.map((post) => (
