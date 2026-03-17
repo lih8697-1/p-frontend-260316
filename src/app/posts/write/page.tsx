@@ -1,5 +1,6 @@
 "use client"
 
+import { fetchApi } from "@/lib/client";
 import { get } from "http";
 import { useRouter } from "next/navigation";
 
@@ -38,17 +39,13 @@ export default function wirte() {
         }
 
         // DB에 저장
-        fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/posts`, {
+        fetchApi(`/api/v1/posts`, {
             method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
             body: JSON.stringify({
                 "title": title.value,
                 "content": content.value
             })
         })
-            .then(response => response.json())
             .then(rs => {
                 alert(rs.msg);
                 // 글 상세 페이지로 이동
