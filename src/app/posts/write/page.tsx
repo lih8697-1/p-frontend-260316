@@ -1,8 +1,11 @@
 "use client"
 
 import { get } from "http";
+import { useRouter } from "next/navigation";
 
 export default function wirte() {
+
+    const router = useRouter();
 
     const onSubmitHandler = (e: any) => {
         e.preventDefault();
@@ -28,15 +31,17 @@ export default function wirte() {
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify ({
+            body: JSON.stringify({
                 "title": title.value,
                 "content": content.value
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.msg);
+                // 글 상세 페이지로 이동
+                router.push(`/posts/${data.data.postDto.id}`)
+            });
     }
 
     return (
