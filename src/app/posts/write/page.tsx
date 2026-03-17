@@ -19,8 +19,20 @@ export default function wirte() {
             return;
         }
 
+        if (title.value.length >= 10 || title.value.length < 2) {
+            alert("2글자 이상 10자 미만으로 작성해주세요");
+            title.focus();
+            return;
+        }
+
         if (content.value.length === 0) {
             alert("내용을 입력해 주세요.");
+            content.focus();
+            return;
+        }
+
+        if (content.value.length >= 100 || content.value.length < 2) {
+            alert("2글자 이상 100자 미만으로 작성해주세요");
             content.focus();
             return;
         }
@@ -37,10 +49,10 @@ export default function wirte() {
             })
         })
             .then(response => response.json())
-            .then(data => {
-                alert(data.msg);
+            .then(rs => {
+                alert(rs.msg);
                 // 글 상세 페이지로 이동
-                router.push(`/posts/${data.data.postDto.id}`)
+                router.push(`/posts/${rs.data.postDto.id}`)
             });
     }
 
