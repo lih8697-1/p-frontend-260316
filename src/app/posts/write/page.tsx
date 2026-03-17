@@ -49,7 +49,7 @@ export default function wirte() {
             .then(rs => {
                 alert(rs.msg);
                 // 글 상세 페이지로 이동
-                router.push(`/posts/${rs.data.postDto.id}`)
+                router.replace(`/posts/${rs.data.postDto.id}`)
             });
     }
 
@@ -57,9 +57,20 @@ export default function wirte() {
         <>
             <h1>글 작성</h1>
             <form action="" onSubmit={onSubmitHandler} className="flex flex-col gap-4">
-                <input type="text" name="title" className="border-1 rounded p-2" placeholder="제목을 입력해 주세요." />
-                <textarea rows={10} name="content" className="border-1 rounded p-2" placeholder="내용을 입력해 주세요."></textarea>
-                <input type="submit" value="작성" className="border-1 rounded p-2" />
+                <input
+                    className="border border-gray-300 rounded p-2"
+                    type="text"
+                    name="title"
+                    placeholder="제목"
+                />
+                <textarea
+                    className="border border-gray-300 rounded p-2"
+                    name="content"
+                    placeholder="내용"
+                />
+                <button className="bg-blue-500 text-white p-2 rounded" type="submit">
+                    저장
+                </button>
             </form>
         </>
     );
