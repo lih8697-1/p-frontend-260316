@@ -49,8 +49,8 @@ export default function Editor() {
         }
 
         // DB 수정
-        fetchApi(`/api/v1/posts`, {
-            method: "POST",
+        fetchApi(`/api/v1/posts/${id}`, {
+            method: "PUT",
             body: JSON.stringify({
                 "title": title.value,
                 "content": content.value
@@ -58,8 +58,9 @@ export default function Editor() {
         })
             .then(rs => {
                 alert(rs.msg);
+                // console.log(rs.msg);
                 // 글 상세 페이지로 이동
-                router.replace(`/posts/${rs.data.postDto.id}`)
+                router.replace(`/posts/${id}`)
             });
     }
 
@@ -68,7 +69,7 @@ export default function Editor() {
     return (
         <>
             <h1>글 수정</h1>
-            <form action="" onSubmit={onSubmitHandler} className="flex flex-col gap-4">
+            <form onSubmit={onSubmitHandler} className="flex flex-col gap-4">
                 <input
                     type="text"
                     name="title"
