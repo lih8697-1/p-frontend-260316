@@ -65,7 +65,7 @@ export default function Editor() {
     }
 
     if (post === null) return <div>로딩 중...</div>
-
+    
     return (
         <>
             <h1>글 수정</h1>
