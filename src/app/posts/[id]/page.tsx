@@ -70,15 +70,16 @@ export default function Detail() {
                     <div className="flex gap-4">
                         <Link
                             href={`/posts/${post.id}/edit`}
-                            className="border-1 rounded p-2 bg-blue-500 cursor-pointer">
+                            className="border-1 rounded p-2 bg-blue-500">
                             수정</Link>
                         <button
                             onClick={() => {
                                 onDeleteHandler(post.id);
                             }}
-                            className="border-1 rounded p-2 bg-red-500 cursor-pointer">삭제</button>
+                            className="border-1 rounded p-2 bg-red-500">삭제</button>
                     </div>
                     <PostCommentList
+                        postId={post.id}
                         postComments={postComments}
                         deletePostComment={deletePostComment}
                     />
@@ -88,7 +89,8 @@ export default function Detail() {
     )
 }
 
-function PostCommentList({ postComments, deletePostComment }: {
+function PostCommentList({ postId, postComments, deletePostComment }: {
+    postId: number,
     postComments: PostCommentDto[] | null,
     deletePostComment: (commentId: number) => void
 }) {
@@ -104,22 +106,74 @@ function PostCommentList({ postComments, deletePostComment }: {
             {postComments !== null && postComments.length > 0 && (
                 <ul className="flex flex-col gap-2">
                     {postComments.map((postComment) => (
-                        <li key={postComment.id} className="flex gap-2 items-center">
-                            <span>{postComment.id} : </span>
-                            <span>{postComment.content}</span>
-                            <button className="border-2 p-2 rounded cursor-pointer">수정</button>
-                            <button
-                                className="border-2 p-2 rounded cursor-pointer" 
-                                onClick={() => {
-                                    deletePostComment(postComment.id);
-                                }}
-                            >
-                                삭제
-                            </button>
-                        </li>
+                        <PostCommentListItem
+                            key={postComment.id}
+                            postId={postId}
+                            postComment={postComment}
+                            deletePostComment={deletePostComment}
+                        />
                     ))}
                 </ul>
             )}
         </>
+    )
+}
+
+function PostCommentListItem({ postId, postComment, deletePostComment }: {
+    postId: number,
+    postComment: PostCommentDto,
+    deletePostComment: (commentId: number) => void
+}) {
+
+    const [modifyMode, setModifyMode] = useState(false);
+
+    const toggleModifyMode = () => {
+        setModifyMode(!modifyMode);
+    };
+
+    const handleModifySubmit = (e: any) => {
+        e.preventDefault();
+        const form = e.target;
+        const contentInput = form.content;
+        const contentValue = contentInput.value;
+
+        fetchApi(`/api/v1/posts/${postId}/comments/${postComment.id}`, {
+            method: "PUT",
+            body: JSON.stringify({ content: contentValue }),
+        }).then((data) => {
+            alert(data.msg);
+            toggleModifyMode();
+        });
+    };
+
+    return (
+        <li key={postComment.id} className="flex gap-2 items-center">
+            <span>{postComment.id} : </span>
+            {modifyMode && (
+                <form className="flex gap-2" onSubmit={handleModifySubmit}>
+                    <input
+                        type="text"
+                        name="content"
+                        defaultValue={postComment.content}
+                        className="border-2 p-2 rounded"
+                    />
+                    <button className="border-2 p-2 rounded" type="submit">
+                        저장
+                    </button>
+                </form>
+            )}
+            {!modifyMode && <span>{postComment.content}</span>}
+            <button className="border-2 p-2 rounded" onClick={toggleModifyMode}>
+                {modifyMode ? "수정취소" : "수정"}
+            </button>
+            <button
+                className="border-2 p-2 rounded"
+                onClick={() => {
+                    deletePostComment(postComment.id);
+                }}
+            >
+                삭제
+            </button>
+        </li>
     )
 }
