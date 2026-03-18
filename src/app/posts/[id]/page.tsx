@@ -5,6 +5,7 @@ import { PostDto } from "@/type/post";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Detail() {
 
@@ -37,7 +38,10 @@ export default function Detail() {
                         <h1>{post.title}</h1>
                         <div>{post.content}</div>
                     </div>
-                    <div>
+                    <div className="flex gap-4">
+                        <Link 
+                        href={`/posts/${post.id}/edit`}
+                        className="border-1 rounded p-2 bg-blue-500">수정</Link>
                         <button
                             onClick={() => {
                                 onDeleteHandler(post.id);
