@@ -6,16 +6,16 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Editor() {
-    
+
     const [post, setPost] = useState<PostDto | null>(null);
     const router = useRouter();
-    const {id} = useParams();
+    const { id } = useParams();
 
     useEffect(() => {
         fetchApi(`/api/v1/posts/${id}`)
-        .then(rs => {
-            setPost(rs);
-        });
+            .then(rs => {
+                setPost(rs);
+            });
     }, []);
 
     const onSubmitHandler = (e: any) => {
