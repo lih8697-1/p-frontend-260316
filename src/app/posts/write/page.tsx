@@ -50,6 +50,9 @@ export default function wirte() {
                 alert(rs.msg);
                 // 글 상세 페이지로 이동
                 router.replace(`/posts/${rs.data.postDto.id}`)
+            })
+            .catch((error) => {
+                alert(error.message);
             });
     }
 
